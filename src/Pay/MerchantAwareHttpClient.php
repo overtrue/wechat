@@ -64,6 +64,8 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
 
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
+            } elseif (!empty($options['json'])) {
+                $request = $request->withBody(Stream::create(json_encode($options['json'])));
             }
 
             $options['headers']['Authorization'] = (new Signature($this->merchant))->createHeader($request);
